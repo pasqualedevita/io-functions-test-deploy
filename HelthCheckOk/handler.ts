@@ -3,7 +3,6 @@ import { wrapRequestHandler } from "io-functions-commons/dist/src/utils/request_
 import {
   IResponseErrorInternal,
   IResponseSuccessJson,
-  ResponseErrorInternal,
   ResponseSuccessJson
 } from "italia-ts-commons/lib/responses";
 
