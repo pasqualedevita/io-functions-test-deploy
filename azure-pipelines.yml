@@ -52,42 +52,6 @@ pool:
   vmImage: 'windows-2019'
 
 stages:
-  # A) Build and code validation
-  - stage: Build
-    dependsOn: []
-    jobs:
-      # A1) Checkout, install module and build code
-      - job: make_build      
-        steps:
-        - template: azure-templates/make-build-steps.yml
-          parameters:
-            make: build
-
-  # C) Deploy to TEST environment if the following conditions apply:
-  - ${{ if eq(parameters.TEST_ENABLE_DEPLOY, true) }}:
-    - stage: Deploy_test
-      condition: 
-        and(
-          succeeded(),
-          and (
-            eq(variables['DO_DEPLOY'], true),
-            or(
-              eq(variables['Build.SourceBranch'], 'refs/heads/master'),
-              eq(variables['Build.Reason'], 'Manual')
-            )
-          )
-        )    
-      dependsOn:
-        - Build
-      jobs:
-        - job: '${{ parameters.TEST_DEPLOY_TYPE }}'
-          steps:
-          - template: azure-templates/deploy-steps.yml
-            parameters:
-              deployType: '${{ parameters.TEST_DEPLOY_TYPE }}'
-              azureSubscription: '$(TEST_AZURE_SUBSCRIPTION)'
-              resourceGroupName: '$(TEST_RESOURCE_GROUP_NAME)'
-              appName: '$(TEST_APP_NAME)'
 
 
   # D) Deploy to PRODUCTION environment if one of the following conditions apply:
@@ -109,8 +73,6 @@ stages:
             )
           )
         )
-      dependsOn:
-        - Build
       jobs:
         - job: '${{ parameters.PRODUCTION_DEPLOY_TYPE }}'
           steps:
