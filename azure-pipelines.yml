@@ -156,7 +156,6 @@ stages:
         )
       dependsOn:
         - Build
-        - Test
       jobs:
         - job: '${{ parameters.PRODUCTION_DEPLOY_TYPE }}'
           steps:
