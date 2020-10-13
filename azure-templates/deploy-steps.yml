@@ -109,7 +109,7 @@ steps:
     - task: AzureFunction@1
       inputs:
         function: 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'
-        key: '${{ FUNCTIONS_KEY_STAGING }}'
+        key: '$(FUNCTIONS_KEY_STAGING)'
         method: 'GET'
         successCriteria: eq(jsonpath($['name'], 'app-name'))
         waitForCompletion: 'true'
