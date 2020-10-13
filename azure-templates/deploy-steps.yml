@@ -104,7 +104,17 @@ steps:
         slotName: 'staging'
       displayName: Deploy to staging slot
       
-    - task: AzureAppServiceManage@0   # Second step: swap 'staging' with 'production' slot
+    # Invoke Azure Function
+    # Invoke an Azure Function
+    - task: AzureFunction@1
+      inputs:
+        function: 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'
+        key: '${{ parameters.FUNCTIONS_KEY_STAGING }}'
+        method: 'GET'
+        successCriteria: eq(jsonpath($['name'], 'app-name'))
+        waitForCompletion: 'true'
+
+    - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
         azureSubscription: '${{ parameters.azureSubscription }}'
         resourceGroupName: '${{ parameters.resourceGroupName }}'
