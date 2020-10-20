@@ -34,6 +34,7 @@ steps:
       resourceGroupName: '${{ parameters.resourceGroupName }}'
       webAppName: '${{ parameters.appName }}'
       sourceSlot: staging
-      swapWithProduction: true
+      targetSlot: production
+      swapWithProduction: false
     displayName: Swap with production slot  
   
