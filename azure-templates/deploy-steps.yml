@@ -106,11 +106,15 @@ steps:
       
     # Invoke Azure Function
     # Invoke an Azure Function
-    - task: CmdLine@2
+    - task: AzureCLI@2
       displayName: Healthcheck
       inputs:
-        script: |
-          curl --location --request GET 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok' --header 'x-functions-key: $(FUNCTIONS_KEY_STAGING)'
+        azureSubscription: '${{ parameters.azureSubscription }}'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        failOnStandardError: false
+        inlineScript: |
+          az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok' --headers x-functions-key=$(FUNCTIONS_KEY_STAGING)
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
