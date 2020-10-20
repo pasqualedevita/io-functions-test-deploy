@@ -114,7 +114,7 @@ steps:
         scriptLocation: 'inlineScript'
         failOnStandardError: false
         inlineScript: |
-          az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok' --headers x-functions-key=$(FUNCTIONS_KEY_STAGING)
+          az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ko' --headers x-functions-key=$(FUNCTIONS_KEY_STAGING)
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
