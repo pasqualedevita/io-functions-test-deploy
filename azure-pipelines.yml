@@ -24,7 +24,7 @@ parameters:
   - name: 'PRODUCTION_DEPLOY_TYPE'
     displayName: 'Method to achieve deployment in Production (if enabled):'
     type: string
-    default: deployToStagingSlotAndSwap
+    default: deployToStagingSlot
     values:
       - deployToStagingSlot  
       - deployToProductionSlot
@@ -53,15 +53,32 @@ pool:
 
 stages:
   # A) Build and code validation
-  - stage: Test_Swap
+  - stage: Build
     dependsOn: []
     jobs:
       # A1) Checkout, install module and build code
-      - job: make_swap      
+      - job: make_build      
         steps:
-        - template: azure-templates/make-swap-steps.yml
+        - template: azure-templates/make-build-steps.yml
           parameters:
-            deployType: '${{ parameters.PRODUCTION_DEPLOY_TYPE }}'
-            azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
-            resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
-            appName: '$(PRODUCTION_APP_NAME)'
+            make: build
+
+  # D) Deploy to PRODUCTION environment if one of the following conditions apply:
+  #    - continuos deployment (automatic):
+  #       - $DO_DEPLOY == true and PRODUCTION_ENABLE_DEPLOY == true
+  #       - the 'latest' tag is pushed 
+  #    - manual deployment:
+  #       - $DO_DEPLOY == true and PRODUCTION_ENABLE_DEPLOY == true
+  - ${{ if eq(parameters.PRODUCTION_ENABLE_DEPLOY, true) }}:
+    - stage: Deploy_production
+      dependsOn:
+        - Build
+      jobs:
+        - job: '${{ parameters.PRODUCTION_DEPLOY_TYPE }}'
+          steps:
+          - template: azure-templates/deploy-steps.yml
+            parameters:
+              deployType: '${{ parameters.PRODUCTION_DEPLOY_TYPE }}'
+              azureSubscription: '$(PRODUCTION_AZURE_SUBSCRIPTION)'
+              resourceGroupName: '$(PRODUCTION_RESOURCE_GROUP_NAME)'
+              appName: '$(PRODUCTION_APP_NAME)'
