@@ -104,7 +104,7 @@ stages:
           and (
             eq(variables['DO_DEPLOY'], true),
             or(
-              eq(variables['Build.SourceBranch'], 'refs/tags/latest'),
+              eq(variables['Build.SourceBranch'], 'master'),
               eq(variables['Build.Reason'], 'Manual')
             )
           )
