@@ -31,8 +31,6 @@ inputs = {
 
   runtime_version = "~3"
 
-  # auto_swap_slot_name = "production"
-
   application_insights_instrumentation_key = dependency.application_insights.outputs.instrumentation_key
 
   # site_config
@@ -45,6 +43,8 @@ inputs = {
     NODE_ENV                     = "production"
 
     SLOT_TASK_HUBNAME = "StagingTaskHub"
+
+    "AzureWebJobs.DurableFunctionsOrchestrator.Disabled" = "1"
   }
 
   app_settings_secrets = {
