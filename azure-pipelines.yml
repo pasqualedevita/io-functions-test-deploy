@@ -98,17 +98,6 @@ stages:
   #       - $DO_DEPLOY == true and PRODUCTION_ENABLE_DEPLOY == true
   - ${{ if eq(parameters.PRODUCTION_ENABLE_DEPLOY, true) }}:
     - stage: Deploy_production
-      condition: 
-        and(
-          succeeded(),
-          and (
-            eq(variables['Build.SourceBranch'], 'master'),
-            or(
-              eq(variables['Build.SourceBranch'], 'master'),
-              eq(variables['Build.Reason'], 'Manual')
-            )
-          )
-        )
       dependsOn:
         - Build
       jobs:
