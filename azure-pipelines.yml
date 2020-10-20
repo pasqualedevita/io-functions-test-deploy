@@ -102,7 +102,7 @@ stages:
         and(
           succeeded(),
           and (
-            variables['Build.SourceBranch'], 'master'),
+            eq(variables['Build.SourceBranch'], 'master'),
             or(
               eq(variables['Build.SourceBranch'], 'master'),
               eq(variables['Build.Reason'], 'Manual')
