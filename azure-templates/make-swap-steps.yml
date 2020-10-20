@@ -1,0 +1,39 @@
+# Azure DevOps template used to perform all the deploy steps including build. 
+#
+# Note. Deployment slots let you deploy different versions of your function
+# app to different URLs. You can test a certain version and then swap content
+# and configuration between slots to have minimal impact to production and also 
+# make rollback easily.
+
+parameters:
+  - name: 'deployType'
+    type: string
+    default: deployToProductionSlot
+    values:
+    - deployToProductionSlot
+    - deployToStagingSlotAndSwap
+    - deployToStagingSlot  
+    - deployToTestSlot  
+  
+  - name: 'azureSubscription'
+    type: string
+    default: ''
+  
+  - name: 'resourceGroupName'
+    type: string
+    default: ''
+  
+  - name: 'appName'
+    type: string
+    default: ''
+    
+steps:
+  - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
+    inputs:
+      azureSubscription: '${{ parameters.azureSubscription }}'
+      resourceGroupName: '${{ parameters.resourceGroupName }}'
+      webAppName: '${{ parameters.appName }}'
+      sourceSlot: staging
+      swapWithProduction: true
+    displayName: Swap with production slot  
+  
