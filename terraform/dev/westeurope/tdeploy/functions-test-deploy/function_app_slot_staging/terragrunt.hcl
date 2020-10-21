@@ -31,6 +31,8 @@ inputs = {
 
   runtime_version = "~3"
 
+  # auto_swap_slot_name = "production"
+
   application_insights_instrumentation_key = dependency.application_insights.outputs.instrumentation_key
 
   # site_config
@@ -44,6 +46,9 @@ inputs = {
 
     SLOT_TASK_HUBNAME = "StagingTaskHub"
 
+    # WEBSITE_SWAP_WARMUP_PING_PATH = "/healthcheck/ok"
+    # WEBSITE_SWAP_WARMUP_PING_STATUSES = "200"
+
     "AzureWebJobs.DurableFunctionsOrchestrator.Disabled" = "1"
   }
 
@@ -52,4 +57,5 @@ inputs = {
     map          = {}
   }
 
+  function_app_id = dependency.function_app.outputs.id
 }

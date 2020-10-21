@@ -45,6 +45,9 @@ inputs = {
     NODE_ENV                     = "production"
 
     SLOT_TASK_HUBNAME = "ProductionTaskHub"
+    
+    # WEBSITE_SWAP_WARMUP_PING_PATH = "/healthcheck/ok"
+    # WEBSITE_SWAP_WARMUP_PING_STATUSES = "200"
   }
 
   app_settings_secrets = {
