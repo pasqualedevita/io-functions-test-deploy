@@ -115,7 +115,33 @@ steps:
         failOnStandardError: false
         inlineScript: |
           # FUNCTIONS_KEY=$(az functionapp keys list --resource-group '${{ parameters.resourceGroupName }}' --name '${{ parameters.appName }}' --slot staging --query functionKeys.default --output tsv)
-          az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok' --headers x-functions-key=$(FUNCTIONS_KEY_STAGING)
+          # az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok' --headers x-functions-key=$(FUNCTIONS_KEY_STAGING)
+          
+          ENDPOINT="/healthcheck/ok"
+          ACI_NAME="${{ parameters.appName }}-deploy"
+          IMAGE="microsoft/azure-cli:latest"
+          CPU="0.5"
+          MEMORY="0.5"
+          RESTART_POLICY="Never"
+          VNET="io-d-vnet-tdeploy"
+          SUBNET="cg-tdeploy"
+
+          RESULT=$(az container create \
+                             --resource-group ${{ parameters.resourceGroupName }} \
+                             --name ${ACI_NAME} \
+                             --image ${IMAGE} \
+                             --cpu ${CPU} \
+                             --memory ${MEMORY} \
+                             --restart-policy ${RESTART_POLICY} \
+                             --vnet ${VNET} \
+                             --subnet ${SUBNET} \
+                             --command-line "az rest --skip-authorization-header --method get --url https://${FUNCTION_APP}-staging.azurewebsites.net${ENDPOINT}" \
+                             --output tsv \
+                             --query containers[].instanceView.currentState.exitCode)
+          
+            OUTPUT=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
+            echo $RESULT
+            exit $RESULT
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
