@@ -126,7 +126,7 @@ steps:
           VNET="io-d-vnet-tdeploy"
           SUBNET="cg-tdeploy"
 
-          RESULT=$(az container create \
+          az container create \
                              --resource-group ${{ parameters.resourceGroupName }} \
                              --name ${ACI_NAME} \
                              --image ${IMAGE} \
@@ -137,11 +137,11 @@ steps:
                              --subnet ${SUBNET} \
                              --command-line "az rest --skip-authorization-header --method get --url https://${FUNCTION_APP}-staging.azurewebsites.net${ENDPOINT}" \
                              --output tsv \
-                             --query containers[].instanceView.currentState.exitCode)
+                             --query containers[].instanceView.currentState.exitCode
           
-            OUTPUT=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
-            echo $RESULT
-            exit $RESULT
+          OUTPUT=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
+          echo $RESULT
+          exit $RESULT
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
