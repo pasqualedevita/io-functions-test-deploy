@@ -138,9 +138,9 @@ steps:
                              --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
                              --output tsv \
                              --query containers[].instanceView.currentState.exitCode)
-          echo $OUTPUT_CREATE
-          # OUTPUT_DELETE=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
-          # exit $RESULT
+          # echo $OUTPUT_CREATE
+          OUTPUT_DELETE=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
+          exit $OUTPUT_CREATE
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
