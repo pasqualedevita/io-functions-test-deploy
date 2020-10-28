@@ -127,7 +127,7 @@ steps:
           SUBNET="cg-tdeploy"
 
           az container create \
-                             --resource-group ${{ parameters.resourceGroupName }} \
+                             --resource-group '${{ parameters.resourceGroupName }}' \
                              --name ${ACI_NAME} \
                              --image ${IMAGE} \
                              --cpu ${CPU} \
@@ -135,13 +135,13 @@ steps:
                              --restart-policy ${RESTART_POLICY} \
                              --vnet ${VNET} \
                              --subnet ${SUBNET} \
-                             --command-line "az rest --skip-authorization-header --method get --url https://${FUNCTION_APP}-staging.azurewebsites.net${ENDPOINT}" \
-                             --output tsv \
-                             --query containers[].instanceView.currentState.exitCode
+                             --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'"
+                             #--output tsv \
+                             #--query containers[].instanceView.currentState.exitCode
           
-          OUTPUT=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
-          echo $RESULT
-          exit $RESULT
+          # OUTPUT=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
+          # echo $RESULT
+          # exit $RESULT
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
       inputs:
