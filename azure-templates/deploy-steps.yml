@@ -117,18 +117,18 @@ steps:
           # FUNCTIONS_KEY=$(az functionapp keys list --resource-group '${{ parameters.resourceGroupName }}' --name '${{ parameters.appName }}' --slot staging --query functionKeys.default --output tsv)
           # az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok' --headers x-functions-key=$(FUNCTIONS_KEY_STAGING)
           
-          ENDPOINT="/healthcheck/ok"
-          ACI_NAME="${{ parameters.appName }}-deploy"
+          CONTAINER_INSTANCE_NAME="${{ parameters.appName }}-deploy"
           IMAGE="microsoft/azure-cli:latest"
           CPU="0.5"
           MEMORY="0.5"
           RESTART_POLICY="Never"
           VNET="io-d-vnet-tdeploy"
           SUBNET="cg-tdeploy"
-
+          
+          # create, run container instance in subnet, and get exit code
           OUTPUT_CREATE=$(az container create \
                              --resource-group '${{ parameters.resourceGroupName }}' \
-                             --name ${ACI_NAME} \
+                             --name ${CONTAINER_INSTANCE_NAME} \
                              --image ${IMAGE} \
                              --cpu ${CPU} \
                              --memory ${MEMORY} \
@@ -138,7 +138,11 @@ steps:
                              --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
                              --output tsv \
                              --query containers[].instanceView.currentState.exitCode)
-          OUTPUT_DELETE=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${ACI_NAME} --yes)
+          # print container instance logs
+          az container logs --resource-group '${{ parameters.resourceGroupName }}' --name ${CONTAINER_INSTANCE_NAME}
+          # delete container instance
+          OUTPUT_DELETE=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${CONTAINER_INSTANCE_NAME} --yes)
+          # reuse exit code
           exit $OUTPUT_CREATE
 
     - task: AzureAppServiceManage@0   # Third step: swap 'staging' with 'production' slot
