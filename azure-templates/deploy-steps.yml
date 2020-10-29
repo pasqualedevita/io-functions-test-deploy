@@ -135,7 +135,7 @@ steps:
                              --restart-policy ${RESTART_POLICY} \
                              --vnet ${VNET} \
                              --subnet ${SUBNET} \
-                             --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
+                             --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ko'" \
                              --output tsv \
                              --query containers[].instanceView.currentState.exitCode)
           # echo $OUTPUT_CREATE
