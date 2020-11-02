@@ -36,8 +36,4 @@ steps:
 
 - script: |
     yarn release-it '${{ parameters.semver }}''
-  displayName: 'Set upsream'
-
-- script: |
-    yarn release-it '${{ parameters.semver }}''
   displayName: 'Pack release on github'
