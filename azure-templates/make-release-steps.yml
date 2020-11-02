@@ -35,5 +35,5 @@ steps:
   displayName: 'Install node modules'
 
 - script: |
-    yarn release-it '${{ parameters.semver }}''
+    yarn release-it minor
   displayName: 'Pack release on github'
