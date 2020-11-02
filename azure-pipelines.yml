@@ -38,6 +38,8 @@ parameters:
       - major
       - minor
       - patch
+  - name: 'GITHUB_TOKEN'
+    type: string
 
 # This pipeline can be manually run or is automatically triggered whenever one 
 # of the following conditions is true:
