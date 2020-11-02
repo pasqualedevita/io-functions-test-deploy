@@ -39,5 +39,5 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    yarn release-it minor --verbose
+    yarn release-it minor --verbose --ci
   displayName: 'Pack release on github'
