@@ -7,7 +7,7 @@ parameters:
   - major
   - minor
   - patch
-  
+
 - name: 'cache_version_id'
   type: string
   default: $(CACHE_VERSION_ID)
@@ -33,6 +33,10 @@ steps:
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
   displayName: 'Install node modules'
+
+- script: |
+    yarn release-it '${{ parameters.semver }}''
+  displayName: 'Set upsream'
 
 - script: |
     yarn release-it '${{ parameters.semver }}''
