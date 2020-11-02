@@ -13,7 +13,8 @@ module.exports = {
   hooks: {
     "before:release": [
       "npx auto-changelog --config .auto-changelog.json --package",
-      "git add CHANGELOG.md"
+      "git add CHANGELOG.md",
+      "git status"
     ]
   },
   github: {
