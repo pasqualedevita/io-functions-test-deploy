@@ -30,6 +30,14 @@ parameters:
       - deployToProductionSlot
       - deployToStagingSlotAndSwap
 
+  - name: 'RELEASE_SEMVER'
+    displayName: 'When packing a release, define the version bump to apply'
+    type: string
+    values:
+      - major
+      - minor
+      - patch
+
 # This pipeline can be manually run or is automatically triggered whenever one 
 # of the following conditions is true:
 # - a push is made to any branch in the repository (not only 'master')
@@ -52,7 +60,19 @@ pool:
   vmImage: 'windows-2019'
 
 stages:
-  # A) Build and code validation
+
+  # A) pack release
+  - stage: Release
+    dependsOn: []
+    jobs:
+      # A1) 
+      - job: make_release      
+        steps:
+        - template: azure-templates/make-release-steps.yml
+          parameters:
+            semver: '${{ parameters.RELEASE_SEMVER }}'
+
+  # B) Build and code validation
   - stage: Build
     dependsOn: []
     jobs:
