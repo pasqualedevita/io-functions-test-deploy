@@ -4,7 +4,7 @@
 module.exports = {
   git: {
     tagName: "v${version}",
-    commitMessage: "chore: rttelease ${version}",
+    commitMessage: "'chore: rttelease ${version}'",
     changelog:
       "npx auto-changelog --config .auto-changelog.json --stdout --commit-limit false --unreleased --template preview.hbs",
     requireBranch: "master",
