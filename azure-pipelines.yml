@@ -33,6 +33,7 @@ parameters:
   - name: 'RELEASE_SEMVER'
     displayName: 'When packing a release, define the version bump to apply'
     type: string
+    default: minor
     values:
       - major
       - minor
