@@ -35,5 +35,9 @@ steps:
   displayName: 'Install node modules'
 
 - script: |
-    yarn release-it minor
+    git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+  displayName: 'Git setup'  
+
+- script: |
+    yarn release-it minor --verbose
   displayName: 'Pack release on github'
