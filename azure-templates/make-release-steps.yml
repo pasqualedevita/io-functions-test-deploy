@@ -51,5 +51,9 @@ steps:
   displayName: 'Version bump and tag'
 
 - script: |
+    git status
+  displayName: 'git status 2'
+
+- script: |
     git push origin master 
   displayName: 'Push'
