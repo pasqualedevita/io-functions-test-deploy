@@ -16,6 +16,7 @@ steps:
 - checkout: self
   displayName: 'Checkout'
   clean: true
+  persistCredentials: true
 
 - script: |
     git status
