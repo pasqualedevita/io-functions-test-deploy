@@ -57,6 +57,7 @@ steps:
   displayName: 'Version bump and tag'
 
 - script: |
+    git diff
     git status
   displayName: 'git status 3'
 
