@@ -53,7 +53,7 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    npm version minor
+    npm version minor --force
   displayName: 'Version bump and tag'
 
 - script: |
