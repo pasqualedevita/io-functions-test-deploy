@@ -51,5 +51,5 @@ steps:
   displayName: 'Version bump and tag'
 
 - script: |
-    git push origin master "https://$(GITHUB_TOKEN)@github.com/pagopa/io-functions-test-deploy.git" && git push --tags "https://$(GITHUB_TOKEN)@github.com/pagopa/io-functions-test-deploy.git"
+    git push origin master 
   displayName: 'Push'
