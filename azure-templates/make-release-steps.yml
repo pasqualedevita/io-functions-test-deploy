@@ -24,6 +24,10 @@ steps:
 - script: |
     git checkout master
   displayName: 'git ch master'
+
+- script: |
+    git status
+  displayName: 'git status 2'
       
 - task: Cache@2
   inputs:
@@ -52,7 +56,7 @@ steps:
 
 - script: |
     git status
-  displayName: 'git status 2'
+  displayName: 'git status 3'
 
 - script: |
     git push origin master 
