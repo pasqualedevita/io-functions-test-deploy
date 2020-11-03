@@ -39,5 +39,9 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    yarn release-it --verbose --ci minor
-  displayName: 'Pack release on github'
+    npm version minor
+  displayName: 'Version bump and tag'
+
+- script: |
+    git push --tags 
+  displayName: 'Push'
