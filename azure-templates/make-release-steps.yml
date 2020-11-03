@@ -14,6 +14,7 @@ parameters:
   
 steps:
 - checkout: self
+  persistCredentials: true
   displayName: 'Checkout'
   clean: true
 
@@ -47,7 +48,8 @@ steps:
   displayName: 'Install node modules'
 
 - script: |
-    git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+    git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
   displayName: 'Git setup'  
 
 - script: |
