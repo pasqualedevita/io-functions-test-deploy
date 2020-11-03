@@ -3,7 +3,7 @@
   "description": "",
   "author": "IO team",
   "repository": "https://github.com/pagoPA/io-functions-template",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
@@ -19,7 +19,7 @@
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
-    "version": "auto-changelog -p && git add CHANGELOG.md && git commit --amend --no-edit && git tag v$npm_version-RELEASE"
+    "version": "auto-changelog -p && git add CHANGELOG.md && git commit --amend --no-edit && git tag v$npm_package_version-RELEASE"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",
