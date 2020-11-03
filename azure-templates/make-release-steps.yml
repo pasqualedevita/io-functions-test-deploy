@@ -52,7 +52,7 @@ steps:
   displayName: 'Git setup'  
 
 - script: |
-    npm version minor -m "Bump version to %s [skip ci]"
+    npm version ${{ parameters.semver }} -m "Bump version to %s [skip ci]"
   displayName: 'Version bump and tag'
 
 - script: |
