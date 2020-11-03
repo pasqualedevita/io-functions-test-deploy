@@ -16,6 +16,14 @@ steps:
 - checkout: self
   displayName: 'Checkout'
   clean: true
+
+- script: |
+    git status
+  displayName: 'git status'
+
+- script: |
+    git checkout master
+  displayName: 'git ch master'
       
 - task: Cache@2
   inputs:
