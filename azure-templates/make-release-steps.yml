@@ -83,8 +83,8 @@ steps:
 - task: GitHubRelease@0
   inputs:
     gitHubConnection: balanza
-    repositoryName: $(git rev-parse HEAD)
+    repositoryName: $(Build.Repository.Name)
     action: create
-    tag:  $(node -p "require('./package.json').version")
+    tag:  v$(node -p "require('./package.json').version")
     title: Release $(node -p "require('./package.json').version")
     addChangeLog: true
