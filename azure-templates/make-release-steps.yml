@@ -67,13 +67,14 @@ steps:
     git log -n 2
   displayName: 'git log'
 
+
 - script: |
-    git push origin master 
+    git push --follow-tags origin master 
   displayName: 'Push'
 
 - script: |
     git rev-parse HEAD
-  displayName: 'tag'
+  displayName: 'show commit sha'
 
 - script: |
     node -p "require('./package.json').version"
@@ -82,7 +83,7 @@ steps:
 - task: GitHubRelease@0
   inputs:
     gitHubConnection: balanza
-    repositoryName: $(Build.Repository.Name)
+    repositoryName: $(git rev-parse HEAD)
     action: create
     target: '$(Build.SourceVersion)'
     title: Release $(node -p "require('./package.json').version")
