@@ -77,6 +77,14 @@ steps:
   displayName: 'show commit sha'
 
 - script: |
+    FOO=$(git rev-parse HEAD); export $FOO
+  displayName: 'set'
+
+- script: |
+    echo $FOO
+  displayName: 'get'
+
+- script: |
     node -p "require('./package.json').version"
   displayName: 'version'
 
