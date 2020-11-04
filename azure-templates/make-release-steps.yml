@@ -85,6 +85,7 @@ steps:
     gitHubConnection: balanza
     repositoryName: $(Build.Repository.Name)
     action: create
+    target: $(git rev-parse HEAD)
     tag:  v$(node -p "require('./package.json').version")
     title: Release $(node -p "require('./package.json').version")
     addChangeLog: true
