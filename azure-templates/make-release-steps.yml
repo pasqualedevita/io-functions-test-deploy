@@ -77,11 +77,11 @@ steps:
   displayName: 'show commit sha'
 
 - script: |
-    FOO=$(git rev-parse HEAD)
+    echo "##vso[task.setvariable variable=FOO;]$(git rev-parse HEAD)"
   displayName: 'set'
 
 - script: |
-    echo $FOO
+    echo ${{ parameters.FOO }}
   displayName: 'get'
 
 - script: |
