@@ -77,6 +77,11 @@ steps:
   displayName: 'show commit sha'
 
 - script: |
+    FOO=v$(node -p "require('./package.json').version")
+    echo "##vso[task.setvariable variable=tag]$FOO"
+  displayName: 'set version tag var'
+
+- script: |
     node -p "require('./package.json').version"
   displayName: 'version'
 
@@ -87,6 +92,6 @@ steps:
     action: create
     target: $(git rev-parse HEAD)
     tagSource: manual
-    tag:  v5.12.9
+    tag: $(tag)
     title: Release $(node -p "require('./package.json').version")
     addChangelog: false
