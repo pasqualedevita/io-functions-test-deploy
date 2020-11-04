@@ -11,9 +11,6 @@ parameters:
 - name: 'cache_version_id'
   type: string
   default: $(CACHE_VERSION_ID)
-- name: 'FOO'
-  type: string
-  default: foo
   
 steps:
 - checkout: self
@@ -79,12 +76,15 @@ steps:
     git rev-parse HEAD
   displayName: 'show commit sha'
 
-- script: |
-    echo "##vso[task.setvariable variable=FOO;]$(git rev-parse HEAD)"
+- bash: |
+    LAST_SHA=$(git rev-parse HEAD)
+    echo "##vso[task.setvariable variable=FOO;isOutput=true]$LAST_SHA"
+    echo "variable value is $FOO"
   displayName: 'set'
 
 - script: |
-    echo ${{ parameters.FOO }}
+    echo $FOO;
+    echo $[make_release.outputs['FOO']]
   displayName: 'get'
 
 - script: |
