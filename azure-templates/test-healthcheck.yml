@@ -1,0 +1,67 @@
+# Azure DevOps template used to perform all the deploy steps including build. 
+#
+# Note. Deployment slots let you deploy different versions of your function
+# app to different URLs. You can test a certain version and then swap content
+# and configuration between slots to have minimal impact to production and also 
+# make rollback easily.
+
+parameters:
+  - name: 'azureSubscription'
+    type: string
+    default: ''
+  
+  - name: 'resourceGroupName'
+    type: string
+    default: ''
+  
+  - name: 'appName'
+    type: string
+    default: ''
+
+  - name: 'containerInstanceCpu'
+    type: string
+    default: '0.5'
+
+  - name: 'containerInstanceMemory'
+    type: string
+    default: '0.5'
+
+  - name: 'containerInstanceVNet'
+    type: string
+    default: 'io-d-vnet-tdeploy'
+
+  - name: 'containerInstanceSubnet'
+    type: string
+    default: 'cg-tdeploy'
+    
+steps:
+  - task: AzureCLI@2
+    displayName: Healthcheck
+    inputs:
+      azureSubscription: '${{ parameters.azureSubscription }}'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      failOnStandardError: false
+      inlineScript: |          
+        CONTAINER_INSTANCE_NAME="${{ parameters.appName }}-deploy"
+        
+        # create, run container instance in subnet, and get exit code
+        OUTPUT_CREATE=$(az container create \
+                         --resource-group '${{ parameters.resourceGroupName }}' \
+                         --name ${CONTAINER_INSTANCE_NAME} \
+                         --image microsoft/azure-cli:latest \
+                         --cpu '${{ parameters.containerInstanceCpu }}' \
+                         --memory '${{ parameters.containerInstanceMemory }}' \
+                         --restart-policy Never \
+                         --vnet '${{ parameters.containerInstanceVNet }}' \
+                         --subnet '${{ parameters.containerInstanceSubnet }}' \
+                         --command-line "az rest --skip-authorization-header --method get --url 'https://${{ parameters.appName }}-staging.azurewebsites.net/healthcheck/ok'" \
+                         --output tsv \
+                         --query containers[].instanceView.currentState.exitCode)
+        
+        # print container instance logs
+        az container logs --resource-group '${{ parameters.resourceGroupName }}' --name ${CONTAINER_INSTANCE_NAME}
+        # delete container instance
+        OUTPUT_DELETE=$(az container delete --resource-group ${{ parameters.resourceGroupName }} --name ${CONTAINER_INSTANCE_NAME} --yes)
+        # reuse exit code
+        exit $OUTPUT_CREATE
