@@ -37,6 +37,7 @@ parameters:
       - major
       - minor
       - patch
+    default: patch
 
 # This pipeline can be manually run or is automatically triggered whenever one 
 # of the following conditions is true:

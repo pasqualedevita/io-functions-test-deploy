@@ -7,7 +7,6 @@ parameters:
   - major
   - minor
   - patch
-  default: minor
 
 - name: 'cache_version_id'
   type: string
