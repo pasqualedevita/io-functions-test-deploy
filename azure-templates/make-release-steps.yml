@@ -87,6 +87,12 @@ steps:
   displayName: 'set version sha var'
 
 - script: |
+    BAR=$(node -p "require('./package.json').version")
+    FOO="Release $BAR"
+    echo "##vso[task.setvariable variable=rtitle]$FOO"
+  displayName: 'set version rtitle var'
+
+- script: |
     node -p "require('./package.json').version"
   displayName: 'version'
 
@@ -98,5 +104,5 @@ steps:
     target: $(sha)
     tagSource: manual
     tag: $(tag)
-    title: Release $(node -p "require('./package.json').version")
+    title: $(rtitle)
     addChangelog: true
