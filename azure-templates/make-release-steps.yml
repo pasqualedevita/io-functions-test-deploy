@@ -76,17 +76,6 @@ steps:
     git rev-parse HEAD
   displayName: 'show commit sha'
 
-- bash: |
-    LAST_SHA=$(git rev-parse HEAD)
-    echo "##vso[task.setvariable variable=FOO;isOutput=true]$LAST_SHA"
-    echo "variable value is $FOO"
-  displayName: 'set'
-
-- script: |
-    echo $FOO;
-    echo $[make_release.outputs['FOO']]
-  displayName: 'get'
-
 - script: |
     node -p "require('./package.json').version"
   displayName: 'version'
