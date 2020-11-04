@@ -89,4 +89,3 @@ steps:
     tagSource: manual
     tag:  v$(node -p "require('./package.json').version")
     title: Release $(node -p "require('./package.json').version")
-    addChangeLog: true
