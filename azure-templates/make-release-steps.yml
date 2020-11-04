@@ -7,6 +7,7 @@ parameters:
   - major
   - minor
   - patch
+  default: minor
 
 - name: 'cache_version_id'
   type: string
@@ -86,6 +87,7 @@ steps:
     repositoryName: $(Build.Repository.Name)
     action: create
     target: $(git rev-parse HEAD)
+    tagSource: manual
     tag:  v$(node -p "require('./package.json').version")
     title: Release $(node -p "require('./package.json').version")
     addChangeLog: true
