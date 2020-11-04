@@ -21,7 +21,7 @@
     "predeploy": "npm-run-all build dist:modules",
     "changelog": "auto-changelog -p --config .auto-changelog.json --stdout --commit-limit false --unreleased --template preview.hbs",
     "version": "npm run changelog && git add CHANGELOG.md",
-    "postversion": "git tag v$npm_package_version-RELEASE"
+    "_postversion": "git tag v$npm_package_version-RELEASE"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",
