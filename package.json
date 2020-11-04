@@ -19,7 +19,8 @@
     "dist:modules": "modclean -r -n default:safe && yarn install --production",
     "dist:zip": "zip -r dist.zip . --exclude @.funcignore --exclude .funcignore",
     "predeploy": "npm-run-all build dist:modules",
-    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "changelog": "auto-changelog -p --config .auto-changelog.json --stdout --commit-limit false --unreleased --template preview.hbs",
+    "version": "npm run changelog && git add CHANGELOG.md",
     "postversion": "git tag v$npm_package_version-RELEASE"
   },
   "devDependencies": {

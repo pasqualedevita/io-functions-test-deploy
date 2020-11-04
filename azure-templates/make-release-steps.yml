@@ -62,3 +62,12 @@ steps:
 - script: |
     git push origin master 
   displayName: 'Push'
+
+- task: GitHubRelease@0
+  inputs:
+    gitHubConnection: 
+    repositoryName: '$(Build.Repository.Name)' 
+    action: 'create' 
+    target: '$(git rev-parse HEAD)'
+    title: 'Release $(node -p "require(`./package.json`).version")'
+    addChangeLog: true
