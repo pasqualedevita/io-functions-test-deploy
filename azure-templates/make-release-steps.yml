@@ -72,8 +72,12 @@ steps:
   displayName: 'Push'
 
 - script: |
-    echo "tag $(git rev-parse HEAD), title: Release $(node -p "require(`./package.json`).version")"
-  displayName: 'Pre rel'
+    git rev-parse HEAD
+  displayName: 'tag'
+
+- script: |
+    node -p "require(`./package.json`).version"
+  displayName: 'version'
 
 - task: GitHubRelease@0
   inputs:
