@@ -13,6 +13,7 @@ parameters:
   default: $(CACHE_VERSION_ID)
 - name: 'FOO'
   type: string
+  default: foo
   
 steps:
 - checkout: self
