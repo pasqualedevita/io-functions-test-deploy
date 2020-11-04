@@ -82,6 +82,11 @@ steps:
   displayName: 'set version tag var'
 
 - script: |
+    FOO=$(git rev-parse HEAD)
+    echo "##vso[task.setvariable variable=sha]$FOO"
+  displayName: 'set version sha var'
+
+- script: |
     node -p "require('./package.json').version"
   displayName: 'version'
 
@@ -90,8 +95,8 @@ steps:
     gitHubConnection: balanza
     repositoryName: $(Build.Repository.Name)
     action: create
-    target: $(git rev-parse HEAD)
+    target: $(sha)
     tagSource: manual
     tag: $(tag)
     title: Release $(node -p "require('./package.json').version")
-    addChangelog: false
+    addChangelog: true
