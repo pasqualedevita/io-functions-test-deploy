@@ -76,7 +76,7 @@ steps:
   displayName: 'tag'
 
 - script: |
-    node -p "require(''./package.json').version"
+    node -p "require('./package.json').version"
   displayName: 'version'
 
 - task: GitHubRelease@0
