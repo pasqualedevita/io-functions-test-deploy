@@ -78,6 +78,8 @@ steps:
 
 - script: |
     node -p "require('./package.json').version"
+    TAG=v$(node -p "require('./package.json').version")
+    echo "##vso[task.setvariable variable=TAG]$TAG"
   displayName: 'version'
 
 - task: GitHubRelease@0
@@ -87,6 +89,6 @@ steps:
     action: create
     target: $(git rev-parse HEAD)
     tagSource: manual
-    tag:  v5.12.9
+    tag:  $(TAG)
     title: Release $(node -p "require('./package.json').version")
     addChangelog: false
