@@ -87,6 +87,7 @@ steps:
     action: create
     target: $(git rev-parse HEAD)
     tagSource: manual
+    tag:  vImpossible
     title: Release $(node -p "require('./package.json').version")
     addChangelog: false
     releaseNotes: "ma che te voi di"
