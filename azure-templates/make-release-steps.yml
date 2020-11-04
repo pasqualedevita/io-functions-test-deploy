@@ -77,7 +77,7 @@ steps:
   displayName: 'show commit sha'
 
 - script: |
-    FOO=$(git rev-parse HEAD); export $FOO
+    FOO=$(git rev-parse HEAD)
   displayName: 'set'
 
 - script: |
