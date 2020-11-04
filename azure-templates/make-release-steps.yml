@@ -60,6 +60,10 @@ steps:
   displayName: 'git status 3'
 
 - script: |
+    git log -n 2
+  displayName: 'git log'
+
+- script: |
     git push origin master 
   displayName: 'Push'
 
