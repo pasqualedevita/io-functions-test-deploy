@@ -64,8 +64,16 @@ steps:
   displayName: 'git log'
 
 - script: |
+    git log -n 2
+  displayName: 'git log'
+
+- script: |
     git push origin master 
   displayName: 'Push'
+
+- script: |
+    echo "tag $(git rev-parse HEAD), title: Release $(node -p "require(`./package.json`).version")"
+  displayName: 'Pre rel'
 
 - task: GitHubRelease@0
   inputs:
